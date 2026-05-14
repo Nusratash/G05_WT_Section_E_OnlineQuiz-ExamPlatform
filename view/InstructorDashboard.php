@@ -1,5 +1,5 @@
 <?php
-// //view/InstructorDashboard.php
+
 ?>
 <html>
 
@@ -40,10 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            
-          
         </tbody>
     </table>
 </body>
-
 </html>

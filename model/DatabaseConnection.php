@@ -1,4 +1,3 @@
-//model/DatabaseConnection.php
 <?php
 class DatabaseConnection{
     function openConnection(){

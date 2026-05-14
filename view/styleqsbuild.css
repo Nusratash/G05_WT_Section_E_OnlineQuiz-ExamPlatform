@@ -1,4 +1,4 @@
-/* style.css */
+
 table { 
     width: 100%; 
     border-collapse: collapse; 
@@ -11,9 +11,6 @@ th, td {
     text-align: left; 
 }
 
-.no-border td {
-    border: none;
-}
 
 .label-cell {
     width: 20%;
@@ -28,7 +25,7 @@ th, td {
 
 .question_section { 
     background-color: #d3d3d3; 
-    height: auto; 
+    min-height: 500px; 
     vertical-align: top; 
     position: relative; 
     padding: 20px;
@@ -36,7 +33,7 @@ th, td {
 
 .btn-add { 
     background-color: #00FF00; 
-    padding: 5px 10px; 
+    padding: 10px 20px; 
     border: none; 
     font-weight: bold; 
     cursor: pointer;
@@ -52,4 +49,59 @@ th, td {
     bottom: 10px; 
     right: 10px; 
     cursor: pointer;
+}
+
+.btn-cancel{
+
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content{
+    background-color: #eee;
+    width: 700px;
+    padding: 30px;
+}
+
+.question-input{
+    width: 100%;
+    height: 40px;
+    background-color: #ddd;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.option-row{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.option-row input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.question-box{
+    background-color: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
 }
