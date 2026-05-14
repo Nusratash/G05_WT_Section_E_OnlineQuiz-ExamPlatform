@@ -1,10 +1,13 @@
+<?php
+// //view/InstructorDashboard.php
+?>
 <html>
 
 <head>
     <title>INSTRUCTOR DASHBOARD</title>
     <style>
         table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th,td { border: 1px solid black; padding: 8px; text-align: left; }
         .btn-active { background-color: #4CAF50; color: white; }
     </style>
 </head>
