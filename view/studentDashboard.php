@@ -22,7 +22,7 @@ if($role != 'student'){
 }
 
 $userModel = new UserModel();
-$stats = $userModel->getStudentDashboardStats($userId);
+$a = $userModel->getStudentDashboardStats($userId);
 ?>
 
 <!doctype html>
@@ -40,10 +40,17 @@ $stats = $userModel->getStudentDashboardStats($userId);
             
             <div>
                 <div>
-                    <h3>Available Quizzes</h3>
-                    <div class="number"><?php echo $stats['total_quizzes']; ?></div>
+                    <h3>Available Quizzes :</h3>
+                    <div><?php echo $a['total_quizzes']; ?></div>
                     
                 </div>
+                 <div>
+                    <h3>Attempts Taken of quizzes:</h3>
+                    <div><?php echo $a['total_attempts']; ?></div>
+                  
+                </div>
+                
+                
                 
                
         </div>
