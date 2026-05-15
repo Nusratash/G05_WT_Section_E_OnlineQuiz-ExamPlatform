@@ -91,7 +91,29 @@ class UserModel{
             $row = $result->fetch_assoc();
             $totalQuizzes = $row['total_quizzes'];
         }
- 
+        
+        
+
+        $sqlAttempts = "SELECT COUNT(*) as total_attempts FROM attempts WHERE student_id = '". $connection->real_escape_string($studentId)."'";
+        $result = $connection->query($sqlAttempts);
+        $totalAttempts = 0;
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $totalAttempts = $row['total_attempts'];
+        }
+        
+    
+        $sqlScore = "SELECT COALESCE(SUM(score), 0) as total_score FROM attempts WHERE student_id = '". $connection->$studentId."' AND score IS NOT NULL";
+        $result = $connection->query($sqlScore);
+        $totalScore = 0;
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $totalScore = $row['total_score'];
+        }
+        
+        $connection->close();
+        
+     
     }
 
    
