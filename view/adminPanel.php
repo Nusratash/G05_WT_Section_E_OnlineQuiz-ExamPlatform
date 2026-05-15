@@ -61,16 +61,12 @@ foreach ($users as $user) {
             Active Users: <?php echo $activeUsers; ?> and
             Suspended Users: <?php echo $suspendedUsers; ?>
         </div>
-        <div class="stats">
-            <strong>System Statistics:</strong> Total Users: <?php echo $totalUsers; ?> |
-            Active Users: <?php echo $activeUsers; ?> |
-            Suspended Users: <?php echo $suspendedUsers; ?>
-        </div>
+
 
 
         <h3>User Management</h3>
         <div class="tableContainer">
-            <table id="usersTable">
+            <table border="1">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -82,14 +78,14 @@ foreach ($users as $user) {
                         <th>Action</th>
                     </tr>
                 </thead>
-                
+                <tbody>
+                    
+                </tbody>
             </table>
         </div>
     </div>
 
 
-
-    </div>
 
 
 </body>
