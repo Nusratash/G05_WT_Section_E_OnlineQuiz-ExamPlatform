@@ -54,11 +54,17 @@ $a = $userModel->getStudentDashboardStats($userId);
             <div>
                 <h3>Total Score :</h3>
                 <div><?php echo $a['total_score']; ?></div>
-                
+
             </div>
         </div>
 
-        
+        <div class="nav-links">
+            <a href="">Available Quizzes</a>
+            <a href="">My Results</a>
+            <a href="">Leaderboard</a>
+        </div>
+
+
 
 
     </div>
