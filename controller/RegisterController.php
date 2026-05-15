@@ -12,6 +12,8 @@ $hasEmailError = true;
 $hasPasswordError = true;
 $hasRoleError = true;
 
+
+
 if(!$name){
     $_SESSION["nameErr"] = "Name is required";
     $hasNameError = true;
@@ -24,12 +26,14 @@ if(!$email){
     $_SESSION["emailErr"] = "Email is required";
     $hasEmailError = true;
 }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-    $_SESSION["emailErr"] = "Please enter a valid email address";
+    $_SESSION["emailErr"] = "Please enter a valid email ";
     $hasEmailError = true;
 }else{
     unset($_SESSION["emailErr"]);
     $hasEmailError = false;
 }
+
+
 
 if(!$password){
     $_SESSION["passwordErr"] = "Password is required";
@@ -52,5 +56,38 @@ if(!$role){
     unset($_SESSION["roleErr"]);
     $hasRoleError = false;
 }
+
+
+
+if($hasNameError || $hasEmailError || $hasPasswordError || $hasRoleError){
+    $_SESSION["name"] = $name;
+    $_SESSION["email"] = $email;
+    $_SESSION["role"] = $role;
+    Header("Location: ../View/register.php");
+    exit();
+}
+
+$userModel = new UserModel();
+$existingUser = $userModel->$email;
+
+if($existingUser){
+    $_SESSION["emailErr"] = "Email already registered. Please enter different email.";
+    $_SESSION["name"] = $name;
+    $_SESSION["email"] = $email;
+    $_SESSION["role"] = $role;
+    Header("Location: ../View/register.php");
+    exit();
+}
+
+$result = $userModel->register($name, $email, $password, $role);
+
+if($result){
+    $_SESSION["successMsg"] = "Registration successful! Please login.";
+    Header("Location: ../View/login.php");
+}else{
+    $_SESSION["errorMsg"] = "Registration failed. Please try again.";
+    Header("Location: ../View/register.php");
+}
+
 
 ?>
