@@ -121,6 +121,22 @@ class UserModel{
 
     
 
+    public function getInstructorDashboardStats($instructorId){
+        $connection = $this->db->openConnection();
+        
+        
+        $sqlQuizzes = "SELECT COUNT(*) as total_quizzes FROM quizzes WHERE instructor_id = '". $connection->$instructorId."'";
+        $result = $connection->query($sqlQuizzes);
+        $totalQuizzes = 0;
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $totalQuizzes = $row['total_quizzes'];
+        }
+        
+  
+     
+    }
+
    
 }
 ?>
