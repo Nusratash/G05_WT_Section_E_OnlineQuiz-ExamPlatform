@@ -29,6 +29,17 @@ $stats = $userModel->getStudentDashboardStats($userId);
 <html>
     <head>
         <title>Student Dashboard</title>
+         <div class="dashboard">
+            <div>
+                <div>
+                    <h1>Welcome, <?php echo $name; ?>!</h1>
+                    <h3>Student Dashboard</h3>
+                </div>
+                <a href="../Controller/LogoutController.php" class="logout">Logout</a>
+            </div>
+            
+            
+        </div>
     
     </head>
     <body>
