@@ -32,7 +32,16 @@ $a = $userModel->getInstructorDashboardStats($userId);
        
     </head>
     <body>
-        
+        <div class="dashboard">
+            <div>
+                <div>
+                    <h1>Welcome, Instructor <?php echo $name; ?>!</h1>
+                    <h3>Instructor Dashboard</h3>
+                </div>
+                <a href="../Controller/LogoutController.php" class="logout">Logout</a>
+            </div>
+            
+            
 
 
 
