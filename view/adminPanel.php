@@ -12,11 +12,28 @@ if(!$isLoggedIn){
 }
 
 if($role != 'admin'){
-    if($role == 'student'){
+    if($role== 'student'){
         Header("Location: studentDashboard.php");
-    }elseif($role == 'instructor'){
+    }elseif($role== 'instructor'){
         Header("Location: instructorDashboard.php");
     }
     exit();
 }
+
+
+$userModel = new UserModel();
+$users = $userModel->getAllUsers();
+
+$totalUsers = count($users);
+$activeUsers = 0;
+$suspendedUsers = 0;
+
+foreach($users as $user){
+    if($user['is_active'] == 1){
+        $activeUsers++;
+    }else{
+        $suspendedUsers++;
+    }
+}
 ?>
+
