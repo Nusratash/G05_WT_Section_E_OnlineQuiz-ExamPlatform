@@ -34,3 +34,21 @@ class UserModel{
         return null;
     }
 
+
+
+        public function findById($id){
+        $connection = $this->db->openConnection();
+        
+        $sql = "SELECT * FROM users WHERE id = '". $connection->$id."'";
+        $result = $connection->query($sql);
+        $connection->close();
+        
+        if($result->num_rows > 0){
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+
+   
+}
+?>
