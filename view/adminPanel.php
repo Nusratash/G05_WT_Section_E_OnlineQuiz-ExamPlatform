@@ -79,7 +79,21 @@ foreach ($users as $user) {
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <?php
+                    foreach ($users as $user) {
+                        $userId = $user['id'];
+                        $userName = $user['name'];
+                        $userEmail = $user['email'];
+                        $userRole = $user['role'];
+                        $createdAt = $user['created_at'];
+                        $isActive = $user['is_active'];
+
+                        $statusText = $isActive == 1 ? 'Active' : 'Suspended';
+                        $btnText = $isActive == 1 ? 'Suspend' : 'Activate';
+
+                        
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
