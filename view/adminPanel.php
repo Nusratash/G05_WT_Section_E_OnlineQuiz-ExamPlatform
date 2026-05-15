@@ -91,7 +91,23 @@ foreach ($users as $user) {
                         $statusText = $isActive == 1 ? 'Active' : 'Suspended';
                         $btnText = $isActive == 1 ? 'Suspend' : 'Activate';
 
-                        
+                        echo "<tr data-user-id='$userId'>
+                                    <td>$userId</td>
+                                    <td>$userName</td>
+                                    <td>$userEmail</td>
+                                    <td>$userRole</td>
+                                    <td>
+                                        <span class='" . ($isActive == 1 ? 'active' : 'inactive') . "'>$statusText</span>
+                                    </td>
+                                    <td>$createdAt</td>
+                                    <td>
+                                        <button 
+                                            class='toggle-btn " . ($isActive == 1 ? 'btn-active' : 'btn-inactive') . "' 
+                                            onclick='toggleUserStatus($userId, $isActive)'>
+                                            $btnText
+                                        </button>
+                                    </td>
+                                 </tr>";
                     }
                     ?>
                 </tbody>
