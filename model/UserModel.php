@@ -112,9 +112,14 @@ class UserModel{
         }
         
         $connection->close();
-        
-     
+         return [
+            'total_quizzes' => $totalQuizzes,
+            'total_attempts' => $totalAttempts,
+            'total_score' => $totalScore
+        ];
     }
+
+    
 
    
 }
