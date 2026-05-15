@@ -21,4 +21,16 @@ class UserModel{
         return $result;
     }
 
- 
+    public function findByEmail($email){
+        $connection = $this->db->openConnection();
+        
+        $sql = "SELECT * FROM users WHERE email = '". $connection->$email."'";
+        $result = $connection->query($sql);
+        $connection->close();
+        
+        if($result->num_rows > 0){
+            return $result->fetch_assoc();
+        }
+        return null;
+    }
+
