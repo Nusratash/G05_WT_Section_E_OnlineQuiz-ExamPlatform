@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $questionError = $_SESSION["questionErr"] ?? "";
 $option1Error = $_SESSION["option1Err"] ?? "";
 $option2Error = $_SESSION["option2Err"] ?? "";
