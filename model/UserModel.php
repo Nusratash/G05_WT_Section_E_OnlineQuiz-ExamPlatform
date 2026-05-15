@@ -134,6 +134,23 @@ class UserModel{
         }
         
   
+
+        $sqlAttempts = "SELECT COUNT(a.id) as total_attempts FROM attempts a JOIN quizzes q ON a.quiz_id = q.id WHERE q.instructor_id = '". $connection->$instructorId."'";
+
+
+        $result = $connection->query($sqlAttempts);
+        $totalAttempts = 0;
+        if($result && $result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $totalAttempts = $row['total_attempts'];
+        }
+        
+        $connection->close();
+        
+        return [
+            'total_quizzes' => $totalQuizzes,
+            'total_attempts' => $totalAttempts
+        ];
      
     }
 
