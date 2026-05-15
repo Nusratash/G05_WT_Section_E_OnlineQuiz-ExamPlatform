@@ -50,8 +50,14 @@ $a = $userModel->getInstructorDashboardStats($userId);
                 <div class="number"><?php echo $a['total_quizzes']; ?></div>
 
             </div>
+            <div>
+                <h3>Total Attempts :</h3>
+                <div class="number"><?php echo $a['total_attempts']; ?></div>
 
+            </div>
         </div>
+
+        
     </div>
 
 
