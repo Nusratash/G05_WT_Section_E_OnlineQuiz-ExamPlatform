@@ -46,7 +46,7 @@ unset($_SESSION["errorMsg"]);
 
 
 
-        <form method="post" action="../Controller/RegisterController.php">
+        <form method="post" action="../Controller/registerController.php">
 
             <table>
                 <tr>
@@ -87,7 +87,7 @@ unset($_SESSION["errorMsg"]);
                             </label>
                         </div>
                     </td>
-                    
+
                     <td>
                         <p style='color:red;'><?php echo $roleError; ?></p>
                     </td>

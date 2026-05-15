@@ -34,7 +34,7 @@ unset($_SESSION["successMsg"]);
         ?>
 
 
-        <form method="post" action="../Controller/LoginController.php">
+        <form method="post" action="../Controller/loginController.php">
             <table>
                 <tr>
                     <td><label>Email:</label></td>

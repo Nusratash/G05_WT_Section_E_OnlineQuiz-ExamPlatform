@@ -37,3 +37,24 @@ foreach($users as $user){
 }
 ?>
 
+
+<!doctype html>
+<html>
+    <head>
+        <title>Admin Panel</title>
+        
+    </head>
+    <body>
+        <div class="dashboard">
+            <div>
+                <div>
+                    <h1>Admin Panel</h1>
+                    <h3>Welcome, Mr. <?php echo $name; ?>!</h3>
+                </div>
+                <a href="../Controller/logoutController.php" class="logout">Logout</a>
+            </div>
+            
+            
+    </body>
+</html>
+
