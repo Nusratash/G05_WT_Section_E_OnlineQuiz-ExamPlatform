@@ -38,7 +38,14 @@ $stats = $userModel->getStudentDashboardStats($userId);
                 <a href="../Controller/LogoutController.php" class="logout">Logout</a>
             </div>
             
-            
+            <div>
+                <div>
+                    <h3>Available Quizzes</h3>
+                    <div class="number"><?php echo $stats['total_quizzes']; ?></div>
+                    
+                </div>
+                
+               
         </div>
     
     </head>
