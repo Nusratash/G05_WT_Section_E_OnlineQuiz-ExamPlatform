@@ -10,7 +10,7 @@ $quizScore = $_SESSION["quizScore"] ?? "";
 <html>
 <head>
     <title>Attempt Result</title>
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/attempted_result_stylesheet.css">
 </head>
 
 <body>
