@@ -42,6 +42,7 @@ $quizScore = $_SESSION["quizScore"] ?? "";
         <?php
         }
         ?>
+        <tr><td colspan="3" class="close-button"><button><a href="#">Close</a></button></td></tr>
     </table>
 
 </body>

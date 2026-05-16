@@ -34,3 +34,7 @@ table{
             color: red;
             background-color: rgba(255,0,0,0.3);
         }
+        .close-button{
+            text-align: center;
+        }
+        a{text-decoration: none;}
