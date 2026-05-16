@@ -21,12 +21,34 @@ function toggleUserStatus(userId, currentStatus) {
           let suspendedCount = document.getElementById("suspendedCount").innerHTML;
           document.getElementById("activeCount").innerHTML = parseInt(activeCount) + 1;
           document.getElementById("suspendedCount").innerHTML = parseInt(suspendedCount) - 1;
+        } else {
+          statusSpan.innerHTML = "Suspended";
+          statusSpan.className = "inactive";
+          button.innerHTML = "Activate";
+          button.className = "toggle-btn btn-inactive";
+          button.setAttribute("onclick", `toggleUserStatus(${userId}, 1)`);
+          
+          
+          let activeCount = document.getElementById("activeCount").innerHTML;
+          let suspendedCount = document.getElementById("suspendedCount").innerHTML;
+          document.getElementById("activeCount").innerHTML = parseInt(activeCount) - 1;
+          document.getElementById("suspendedCount").innerHTML = parseInt(suspendedCount) + 1;
         }
-    
-    
-    
-    
-    } 
+        
+        document.getElementById("ajaxResponse").innerHTML = "Success! User status updated.";
+        document.getElementById("ajaxResponse").style.color = "green";
+      } else {
+        document.getElementById("ajaxResponse").innerHTML = response.error;
+        document.getElementById("ajaxResponse").style.color = "red";
+      }
+      
+      setTimeout(function() {
+        document.getElementById("ajaxResponse").innerHTML = "";
+      }, 3000);
+    } else if (this.readyState == 4) {
+      document.getElementById("ajaxResponse").innerHTML = this.status;
+      document.getElementById("ajaxResponse").style.color = "red";
+    }
   };
   xhttp.open("POST", "../controller/api/ToggleUserController.php", true);
   xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
