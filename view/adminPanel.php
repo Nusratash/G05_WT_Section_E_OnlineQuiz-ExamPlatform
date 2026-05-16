@@ -57,9 +57,9 @@ foreach ($users as $user) {
         </div>
 
         <div>
-            <strong>System Statistics:</strong> Total Users: <?php echo $totalUsers; ?> and
-            Active Users: <?php echo $activeUsers; ?> and
-            Suspended Users: <?php echo $suspendedUsers; ?>
+            <strong>System Statistics:</strong> Total Users: <?php echo $totalUsers; ?> |
+            Active Users: <span id="activeCount"><?php echo $activeUsers; ?></span> |
+            Suspended Users: <span id="suspendedCount"><?php echo $suspendedUsers; ?></span>
         </div>
 
 
