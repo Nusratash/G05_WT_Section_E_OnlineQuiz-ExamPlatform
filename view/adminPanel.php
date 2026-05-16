@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../Model/UserModel.php";
+include "../model/UserModel.php";
 
 $isLoggedIn = $_SESSION["isLoggedIn"] ?? false;
 $role = $_SESSION["role"] ?? "";
