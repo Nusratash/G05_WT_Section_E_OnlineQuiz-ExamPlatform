@@ -26,5 +26,25 @@ class DBPostAttemptResult{
 
         return $stmt->get_result();
     }
+
+    function BringQuizTitleScore($connection, $quiz_id, $attempt_id)
+    {
+        $sql = "
+        SELECT
+            quizzes.title,
+            quizzes.total_marks,
+            attempts.score
+        FROM quizzes
+        JOIN attempts
+            ON quizzes.id = attempts.quiz_id
+        WHERE quizzes.id = ?
+        AND attempts.id = ?
+        ";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ii", $quiz_id, $attempt_id);
+        $stmt->execute();
+
+        return $stmt->get_result();
+    }
 }
 ?>
