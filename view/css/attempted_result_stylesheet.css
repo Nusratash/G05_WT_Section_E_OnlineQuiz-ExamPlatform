@@ -1,0 +1,36 @@
+table{
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+            width: 720px;
+        }
+
+        .max-width{
+            width: 100%;
+        }
+
+        td{
+            padding: 5px;
+            /* border: 1px solid black; */
+            white-space: nowrap;
+        }
+
+        .cell-align-right{
+            text-align: right;
+        }
+
+        .correct{
+            border: 2px solid green;
+            border-radius: 5px;
+            color: green;
+            background-color: rgba(0,255,0,0.3);
+        }
+
+        .wrong{
+            border: 2px solid red;
+            border-radius: 5px;
+            color: red;
+            background-color: rgba(255,0,0,0.3);
+        }
