@@ -14,7 +14,7 @@ $optionId1    = $_POST["option_id1"]   ?? "";
 $optionId2    = $_POST["option_id2"]   ?? "";
 $optionId3    = $_POST["option_id3"]   ?? "";
 $optionId4    = $_POST["option_id4"]   ?? "";
-$correctOption = $_POST["correct_option"] ?? ""; // 1, 2, 3, or 4
+$correctOption = $_POST["correct_option"] ?? ""; 
 
 if ($questionId == "" || $questionText == "") {
     echo json_encode(["success" => false, "error" => "Missing required fields"]);
@@ -27,17 +27,14 @@ $connection = $db->openConnection();
 
 $instructorId = $_SESSION["user_id"] ?? 1;
 
-// Verify ownership
 $ownership = $quizDB->GetQuestionByIdAndInstructor($connection, $questionId, $instructorId);
 if ($ownership->num_rows == 0) {
     echo json_encode(["success" => false, "error" => "Unauthorized"]);
     exit();
 }
 
-// Update question text
 $quizDB->UpdateQuestion($connection, $questionId, $questionText);
 
-// Determine which option is correct (1-indexed)
 $options = [
     1 => ["id" => $optionId1, "text" => $option1],
     2 => ["id" => $optionId2, "text" => $option2],

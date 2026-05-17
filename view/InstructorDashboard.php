@@ -36,21 +36,14 @@ unset($_SESSION["successMsg"]);
     </style>
 </head>
 <body>
+    <?php include "nav.php"; ?>
+
     <h2>
         Instructor Dashboard
     </h2>
     <p style="color:green;">
         <?php echo $successMsg; ?>
     </p>
-    <form action="CreateQuiz.php" method="POST">
-        <table>
-            <tr>
-                <td>
-                    <input type="submit" value="Create Quiz">
-                </td>
-            </tr>
-        </table>
-    </form>
     <table>
         <thead>
             <tr>
@@ -139,7 +132,6 @@ unset($_SESSION["successMsg"]);
 
     <?php if ($successMsg): ?>
     <script>
-        // Quiz was just saved successfully — clear the Create Quiz sessionStorage fields
         sessionStorage.removeItem("quiz_title");
         sessionStorage.removeItem("description");
         sessionStorage.removeItem("quiz_time");
