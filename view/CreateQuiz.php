@@ -15,6 +15,8 @@ if (isset($_SESSION["questions"])) {
         $totalMark += 1;
     }
 }
+// Flag: if there are no leftover session fields, this is a fresh load → clear sessionStorage
+$freshLoad = ($quizTitle == "" && $description == "" && $quizTime == "" && $status == "");
 ?>
 <html>
 <head>
@@ -142,6 +144,8 @@ if (isset($_SESSION["questions"])) {
     </form>
     <?php include "AddQuestionModal.php"; ?>
     <script>
+    var freshLoad = <?php echo $freshLoad ? 'true' : 'false'; ?>;
+
     function saveQuizFieldsAndOpenModal() {
         sessionStorage.setItem(
             "quiz_title",
@@ -161,20 +165,32 @@ if (isset($_SESSION["questions"])) {
         );
         openModal();
     }
+
     window.onload = function () {
-        if(document.getElementById("quiz_title").value == ""){
+        // If this is a fresh load (no leftover PHP session data),
+        // it means the previous quiz was saved successfully — clear sessionStorage.
+        if (freshLoad) {
+            sessionStorage.removeItem("quiz_title");
+            sessionStorage.removeItem("description");
+            sessionStorage.removeItem("quiz_time");
+            sessionStorage.removeItem("status");
+            return;
+        }
+
+        // Restore from sessionStorage only if PHP didn't already provide a value
+        if (document.getElementById("quiz_title").value == "") {
             document.getElementById("quiz_title").value =
                 sessionStorage.getItem("quiz_title") ?? "";
         }
-        if(document.getElementById("description").value == ""){
+        if (document.getElementById("description").value == "") {
             document.getElementById("description").value =
                 sessionStorage.getItem("description") ?? "";
         }
-        if(document.getElementById("quiz_time").value == ""){
+        if (document.getElementById("quiz_time").value == "") {
             document.getElementById("quiz_time").value =
                 sessionStorage.getItem("quiz_time") ?? "";
         }
-        if(document.getElementById("status").value == ""){
+        if (document.getElementById("status").value == "") {
             document.getElementById("status").value =
                 sessionStorage.getItem("status") ?? "";
         }

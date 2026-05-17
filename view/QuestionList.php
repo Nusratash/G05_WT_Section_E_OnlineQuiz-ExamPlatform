@@ -59,16 +59,16 @@ $questions = $quizDB->GetQuestionsByQuizId($connection, $quizId);
                 <td id='question_text_$questionId'>
                     {$question["question_text"]}
                 </td>
-                <td id='option1_$questionId'>
+                <td id='option1_$questionId' data-option-id='{$optionArray[0]["id"]}'>
                     {$optionArray[0]["option_text"]}
                 </td>
-                <td id='option2_$questionId'>
+                <td id='option2_$questionId' data-option-id='{$optionArray[1]["id"]}'>
                     {$optionArray[1]["option_text"]}
                 </td>
-                <td id='option3_$questionId'>
+                <td id='option3_$questionId' data-option-id='{$optionArray[2]["id"]}'>
                     {$optionArray[2]["option_text"]}
                 </td>
-                <td id='option4_$questionId'>
+                <td id='option4_$questionId' data-option-id='{$optionArray[3]["id"]}'>
                     {$optionArray[3]["option_text"]}
                 </td>
                 <td id='correct_option_$questionId'>
