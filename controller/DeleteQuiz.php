@@ -9,10 +9,7 @@ if($quizId == ""){
 $db = new DatabaseConnection();
 $quizDB = new QuizCreateConnection();
 $connection = $db->openConnection();
-$result = $quizDB->DeleteQuiz(
-    $connection,
-    $quizId
-);
+$result = $quizDB->DeleteQuiz($connection,$quizId);
 if($result){
     echo "Deleted";
 }
