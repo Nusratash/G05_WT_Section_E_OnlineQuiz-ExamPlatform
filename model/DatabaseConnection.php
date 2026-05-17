@@ -12,3 +12,4 @@ class DatabaseConnection{
         return $connection;
     }
 }
+?>

@@ -1,74 +1,164 @@
 <?php
+
 session_start();
 
-$email = $_SESSION["loginEmail"] ?? "";
-$emailError = $_SESSION["loginEmailErr"] ?? "";
-$passwordError = $_SESSION["loginPasswordErr"] ?? "";
-$loginErr = $_SESSION["loginErr"] ?? "";
-$successMsg = $_SESSION["successMsg"] ?? "";
+$email =
+    $_SESSION["loginEmail"] ?? "";
 
+$emailError =
+    $_SESSION["loginEmailErr"] ?? "";
+
+$passwordError =
+    $_SESSION["loginPasswordErr"] ?? "";
+
+$loginErr =
+    $_SESSION["loginErr"] ?? "";
+
+$successMsg =
+    $_SESSION["successMsg"] ?? "";
+
+unset($_SESSION["loginEmail"]);
 unset($_SESSION["loginEmailErr"]);
 unset($_SESSION["loginPasswordErr"]);
 unset($_SESSION["loginErr"]);
-unset($_SESSION["loginEmail"]);
 unset($_SESSION["successMsg"]);
+
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
 
 <head>
-    <title>Login Dashboard</title>
+
+    <title>Login</title>
 
 </head>
 
 <body>
+
     <div class="container">
-        <h2>Wellcome</h2>
+
+        <h2>Login</h2>
+
         <?php
+
         if ($successMsg) {
-            echo $successMsg;
-        } elseif ($loginErr) {
-            echo $loginErr;
+
+            echo
+                "<p style='color:green;'>$successMsg</p>";
         }
+
+        if ($loginErr) {
+
+            echo
+                "<p style='color:red;'>$loginErr</p>";
+        }
+
         ?>
 
+        <form
+            method="post"
+            action="../Controller/LoginController.php"
+        >
 
-        <form method="post" action="../Controller/loginController.php">
             <table>
+
                 <tr>
-                    <td><label>Email:</label></td>
-                    <td><input type="email" name="email" placeholder="Enter your email" value="<?php echo $email; ?>" /></td>
+
+                    <td>Email :</td>
+
                     <td>
-                        <p style='color:red;'><?php echo $emailError; ?></p>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td><label>Password:</label></td>
-                    <td><input type="password" name="password" placeholder="Enter your password" /></td>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter Email"
+                            value="<?php echo $email; ?>"
+                        >
+
+                    </td>
+
                     <td>
-                        <p style='color:red;'><?php echo $passwordError; ?></p>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $emailError;
+                            ?>
+
+                        </p>
+
                     </td>
+
                 </tr>
 
                 <tr>
-                    <td></td>
-                    <td><button type="submit" name="submit">Login</button></td>
-                    <td></td>
+
+                    <td>Password :</td>
+
+                    <td>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter Password"
+                        >
+
+                    </td>
+
+                    <td>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $passwordError;
+                            ?>
+
+                        </p>
+
+                    </td>
+
                 </tr>
 
                 <tr>
+
                     <td></td>
-                    <td>Don't have an account? <a href='register.php'>Registration</a></td>
-                    <td></td>
+
+                    <td>
+
+                        <button
+                            type="submit"
+                        >
+                            Login
+                        </button>
+
+                    </td>
+
                 </tr>
+
+                <tr>
+
+                    <td></td>
+
+                    <td>
+
+                        Don't have account?
+
+                        <a href="register.php">
+                            Register
+                        </a>
+
+                    </td>
+
+                </tr>
+
             </table>
+
         </form>
 
-
-
     </div>
+
 </body>
 
 </html>

@@ -1,32 +1,50 @@
 <?php
+
 session_start();
-$nameError = $_SESSION["nameErr"] ?? "";
-$emailError = $_SESSION["emailErr"] ?? "";
-$passwordError = $_SESSION["passwordErr"] ?? "";
-$roleError = $_SESSION["roleErr"] ?? "";
 
-$name = $_SESSION["name"] ?? "";
-$email = $_SESSION["email"] ?? "";
-$role = $_SESSION["role"] ?? "";
+$nameError =
+    $_SESSION["nameErr"] ?? "";
 
-$successMsg = $_SESSION["successMsg"] ?? "";
-$errorMsg = $_SESSION["errorMsg"] ?? "";
+$emailError =
+    $_SESSION["emailErr"] ?? "";
+
+$passwordError =
+    $_SESSION["passwordErr"] ?? "";
+
+$roleError =
+    $_SESSION["roleErr"] ?? "";
+
+$name =
+    $_SESSION["name"] ?? "";
+
+$email =
+    $_SESSION["email"] ?? "";
+
+$role =
+    $_SESSION["role"] ?? "";
+
+$errorMsg =
+    $_SESSION["errorMsg"] ?? "";
 
 unset($_SESSION["nameErr"]);
 unset($_SESSION["emailErr"]);
 unset($_SESSION["passwordErr"]);
 unset($_SESSION["roleErr"]);
+
 unset($_SESSION["name"]);
 unset($_SESSION["email"]);
 unset($_SESSION["role"]);
-unset($_SESSION["successMsg"]);
+
 unset($_SESSION["errorMsg"]);
+
 ?>
 
+<!DOCTYPE html>
 
 <html>
 
 <head>
+
     <title>Registration</title>
 
 </head>
@@ -34,83 +52,205 @@ unset($_SESSION["errorMsg"]);
 <body>
 
     <div class="container">
-        <h2>Register Dashboard</h2>
+
+        <h2>Registration</h2>
 
         <?php
-        if ($successMsg) {
-            echo $successMsg;
-        } elseif ($errorMsg) {
-            echo $errorMsg;
+
+        if ($errorMsg) {
+
+            echo
+                "<p style='color:red;'>$errorMsg</p>";
         }
+
         ?>
 
-
-
-        <form method="post" action="../Controller/registerController.php">
+        <form
+            method="post"
+            action="../Controller/RegisterController.php"
+        >
 
             <table>
+
                 <tr>
-                    <td><label>Full Name:</label></td>
-                    <td><input type="text" name="name" placeholder="Enter your full name" value="<?php echo $name; ?>" /></td>
+
+                    <td>Full Name :</td>
+
                     <td>
-                        <p style='color:red;'><?php echo $nameError; ?></p>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter Full Name"
+                            value="<?php echo $name; ?>"
+                        >
+
                     </td>
+
+                    <td>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $nameError;
+                            ?>
+
+                        </p>
+
+                    </td>
+
                 </tr>
 
                 <tr>
-                    <td><label>Email:</label></td>
-                    <td><input type="email" name="email" placeholder="Enter your email" value="<?php echo $email; ?>" /></td>
+
+                    <td>Email :</td>
+
                     <td>
-                        <p style='color:red;'><?php echo $emailError; ?></p>
-                    </td>
-                </tr>
 
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter Email"
+                            value="<?php echo $email; ?>"
+                        >
 
-                <tr>
-                    <td><label>Password:</label></td>
-                    <td><input type="password" name="password" placeholder="Enter password (>= 8 char)" /></td>
-                    <td>
-                        <p style='color:red;'><?php echo $passwordError; ?></p>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td><label>Role:</label></td>
-                    <td>
-                        <div class="radio-group">
-                            <label>
-                                <input type="radio" name="role" value="student" <?php echo $role == 'student' ? 'checked' : ''; ?> /> Student
-                            </label>
-                            <label>
-                                <input type="radio" name="role" value="instructor" <?php echo $role == 'instructor' ? 'checked' : ''; ?> /> Instructor
-                            </label>
-                        </div>
                     </td>
 
                     <td>
-                        <p style='color:red;'><?php echo $roleError; ?></p>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $emailError;
+                            ?>
+
+                        </p>
+
                     </td>
+
                 </tr>
 
                 <tr>
+
+                    <td>Password :</td>
+
+                    <td>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Minimum 8 characters"
+                        >
+
+                    </td>
+
+                    <td>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $passwordError;
+                            ?>
+
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Role :</td>
+
+                    <td>
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="role"
+                                value="student"
+                                <?php
+                                echo $role == "student"
+                                    ? "checked"
+                                    : "";
+                                ?>
+                            >
+
+                            Student
+
+                        </label>
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="role"
+                                value="instructor"
+                                <?php
+                                echo $role == "instructor"
+                                    ? "checked"
+                                    : "";
+                                ?>
+                            >
+
+                            Instructor
+
+                        </label>
+
+                    </td>
+
+                    <td>
+
+                        <p style="color:red;">
+
+                            <?php
+                            echo $roleError;
+                            ?>
+
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
                     <td></td>
-                    <td><button type="submit" name="submit">Register</button></td>
-                    <td></td>
+
+                    <td>
+
+                        <button
+                            type="submit"
+                        >
+                            Register
+                        </button>
+
+                    </td>
+
                 </tr>
 
                 <tr>
+
                     <td></td>
-                    <td>Already have an account? <a href='login.php'>Login Here</a></td>
-                    <td></td>
+
+                    <td>
+
+                        Already have account?
+
+                        <a href="login.php">
+                            Login
+                        </a>
+
+                    </td>
+
                 </tr>
+
             </table>
 
         </form>
+
     </div>
-
-
-
 
 </body>
 

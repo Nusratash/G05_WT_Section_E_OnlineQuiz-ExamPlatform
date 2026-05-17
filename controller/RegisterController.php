@@ -1,93 +1,153 @@
 <?php
+
 include "../Model/UserModel.php";
+
 session_start();
 
-$name = $_POST["name"] ?? "";
-$email = $_POST["email"] ?? "";
+$name = trim($_POST["name"] ?? "");
+$email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
 $role = $_POST["role"] ?? "";
 
-$hasNameError = true;
-$hasEmailError = true;
-$hasPasswordError = true;
-$hasRoleError = true;
+$hasError = false;
 
+if (!$name) {
 
+    $_SESSION["nameErr"] =
+        "Name is required";
 
-if(!$name){
-    $_SESSION["nameErr"] = "Name is required";
-    $hasNameError = true;
-}else{
+    $hasError = true;
+
+} else {
+
     unset($_SESSION["nameErr"]);
-    $hasNameError = false;
 }
 
-if(!$email){
-    $_SESSION["emailErr"] = "Email is required";
-    $hasEmailError = true;
-}elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-    $_SESSION["emailErr"] = "Please enter a valid email ";
-    $hasEmailError = true;
-}else{
+if (!$email) {
+
+    $_SESSION["emailErr"] =
+        "Email is required";
+
+    $hasError = true;
+
+} elseif (
+    !filter_var(
+        $email,
+        FILTER_VALIDATE_EMAIL
+    )
+) {
+
+    $_SESSION["emailErr"] =
+        "Invalid email format";
+
+    $hasError = true;
+
+} else {
+
     unset($_SESSION["emailErr"]);
-    $hasEmailError = false;
 }
 
+if (!$password) {
 
+    $_SESSION["passwordErr"] =
+        "Password is required";
 
-if(!$password){
-    $_SESSION["passwordErr"] = "Password is required";
-    $hasPasswordError = true;
-}elseif(strlen($password) < 8){
-    $_SESSION["passwordErr"] ="Mmust be at least 8 char";
-    $hasPasswordError = true;
-}else{
+    $hasError = true;
+
+} elseif (strlen($password) < 8) {
+
+    $_SESSION["passwordErr"] =
+        "Password must be at least 8 characters";
+
+    $hasError = true;
+
+} else {
+
     unset($_SESSION["passwordErr"]);
-    $hasPasswordError = false;
 }
 
-if(!$role){
-    $_SESSION["roleErr"] = "Please select a role";
-    $hasRoleError = true;
-}elseif(!in_array($role, ['student', 'instructor'])){
-    $_SESSION["roleErr"] = "Invalid role selected";
-    $hasRoleError = true;
-}else{
+if (!$role) {
+
+    $_SESSION["roleErr"] =
+        "Please select a role";
+
+    $hasError = true;
+
+} elseif (
+    !in_array(
+        $role,
+        ["student", "instructor"]
+    )
+) {
+
+    $_SESSION["roleErr"] =
+        "Invalid role";
+
+    $hasError = true;
+
+} else {
+
     unset($_SESSION["roleErr"]);
-    $hasRoleError = false;
 }
 
+$_SESSION["name"] = $name;
+$_SESSION["email"] = $email;
+$_SESSION["role"] = $role;
 
+if ($hasError) {
 
-if($hasNameError || $hasEmailError || $hasPasswordError || $hasRoleError){
-    $_SESSION["name"] = $name;
-    $_SESSION["email"] = $email;
-    $_SESSION["role"] = $role;
-    Header("Location: ../View/register.php");
+    header(
+        "Location: ../View/register.php"
+    );
+
     exit();
 }
 
 $userModel = new UserModel();
-$existingUser = $userModel->$email;
 
-if($existingUser){
-    $_SESSION["emailErr"] = "Email already registered. Please enter different email.";
-    $_SESSION["name"] = $name;
-    $_SESSION["email"] = $email;
-    $_SESSION["role"] = $role;
-    Header("Location: ../View/register.php");
+$existingUser =
+    $userModel->findByEmail($email);
+
+if ($existingUser) {
+
+    $_SESSION["emailErr"] =
+        "Email already registered";
+
+    header(
+        "Location: ../View/register.php"
+    );
+
     exit();
 }
 
-$result = $userModel->register($name, $email, $password, $role);
+$result = $userModel->register(
+    $name,
+    $email,
+    $password,
+    $role
+);
 
-if($result){
-    $_SESSION["successMsg"] = "Registration successful! Please login.";
-    Header("Location: ../View/login.php");
-}else{
-    $_SESSION["errorMsg"] = "Registration failed. Please try again.";
-    Header("Location: ../View/register.php");
+if ($result) {
+
+    unset($_SESSION["name"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["role"]);
+
+    $_SESSION["successMsg"] =
+        "Registration successful! Please login.";
+
+    header(
+        "Location: ../View/login.php"
+    );
+
+} else {
+
+    $_SESSION["errorMsg"] =
+        "Registration failed";
+
+    header(
+        "Location: ../View/register.php"
+    );
 }
-
 
 ?>

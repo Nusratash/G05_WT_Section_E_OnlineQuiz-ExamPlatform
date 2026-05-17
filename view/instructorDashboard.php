@@ -1,72 +1,127 @@
 <?php
-session_start();
-include "../model/UserModel.php";
 
-$isLoggedIn = $_SESSION["isLoggedIn"] ?? false;
-$role = $_SESSION["role"] ?? "";
-$name = $_SESSION["name"] ?? "";
-$userId = $_SESSION["user_id"] ?? "";
+session_start();
+
+require_once "../Model/UserModel.php";
+
+$isLoggedIn =
+    $_SESSION["isLoggedIn"] ?? false;
+
+$role =
+    $_SESSION["role"] ?? "";
+
+$name =
+    $_SESSION["name"] ?? "";
+
+$userId =
+    $_SESSION["user_id"] ?? "";
 
 if (!$isLoggedIn) {
-    Header("Location: login.php");
+
+    header("Location: login.php");
+
     exit();
 }
 
-if ($role != 'instructor') {
-    if ($role == 'student') {
-        Header("Location: studentDashboard.php");
-    } elseif ($role == 'admin') {
-        Header("Location: adminPanel.php");
+if ($role != "instructor") {
+
+    if ($role == "student") {
+
+        header(
+            "Location: studentDashboard.php"
+        );
+
+    } elseif ($role == "admin") {
+
+        header(
+            "Location: adminPanel.php"
+        );
     }
+
     exit();
 }
 
+// USER MODEL
 $userModel = new UserModel();
-$a = $userModel->getInstructorDashboardStats($userId);
+
+$stats =
+    $userModel->getInstructorDashboardStats(
+        $userId
+    );
+
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
+
 <html>
 
 <head>
-    <title>Instructor Dashboard </title>
+
+    <title>Instructor Dashboard</title>
 
 </head>
 
 <body>
+
+    <!-- NAVIGATION -->
+    <?php include "nav.php"; ?>
+
     <div class="dashboard">
-        <div>
-            <div>
-                <h1>Welcome, Instructor <?php echo $name; ?>!</h1>
-                <h3>Instructor Dashboard</h3>
-            </div>
-            <a href="../Controller/logoutController.php" class="logout">Logout</a>
-        </div>
-
 
         <div>
-            <div>
-                <h3>Total Quizzes Created :</h3>
-                <div class="number"><?php echo $a['total_quizzes']; ?></div>
 
-            </div>
-            <div>
-                <h3>Total Attempts :</h3>
-                <div class="number"><?php echo $a['total_attempts']; ?></div>
+            <h1>
+                Welcome, Instructor
+                <?php echo $name; ?> !
+            </h1>
 
-            </div>
+            <h3>
+                Instructor Dashboard
+            </h3>
+
         </div>
 
+        <hr>
 
+        <div>
 
+            <div>
+
+                <h3>
+                    Total Quizzes Created :
+                </h3>
+
+                <div class="number">
+
+                    <?php
+                    echo $stats['total_quizzes'];
+                    ?>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <div>
+
+                <h3>
+                    Total Attempts :
+                </h3>
+
+                <div class="number">
+
+                    <?php
+                    echo $stats['total_attempts'];
+                    ?>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-
-
-
-
 
 </body>
 
