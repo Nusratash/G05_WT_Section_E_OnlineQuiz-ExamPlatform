@@ -1,31 +1,28 @@
 <?php
-include "../../Model/UserModel.php";
+include "../../model/UserModel.php";
 session_start();
+header("Content-Type: application/json");
 
 $userId = $_POST["user_id"] ?? "";
 $currentStatus = $_POST["current_status"] ?? "";
 
 if(!isset($_SESSION["isLoggedIn"]) || $_SESSION["role"] != 'admin'){
-    echo "Unauthorized access";
+    echo json_encode(["success" => false, "error" => "Unauthorized access"]);
     exit();
 }
 
 if(!$userId){
-    echo "Please provide user id";
+    echo json_encode(["success" => false, "error" => "Please provide user id"]);
     exit();
 }
 
 if($currentStatus === ""){
-    echo "Please provide current status";
+    echo json_encode(["success" => false, "error" => "Please provide current status"]);
     exit();
 }
 
 $userModel = new UserModel();
 $result = $userModel->toggleUserStatus($userId, $currentStatus);
 
-if($result["success"]){
-    echo json_encode($result);
-}else{
-    echo $result["error"];
-}
+echo json_encode($result);
 ?>
