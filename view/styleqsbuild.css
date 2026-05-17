@@ -8,11 +8,9 @@ th,td{
     padding: 8px;
     text-align: left;
 }
-
 .label-cell{
     width: 20%;
 }
-
 .input-field{
     width: 100%;
     background-color: #ddd;
@@ -20,7 +18,6 @@ th,td{
     padding: 10px;
     box-sizing: border-box;
 }
-
 .question_section{
     background-color: #d3d3d3;
     min-height: 500px;
@@ -28,7 +25,6 @@ th,td{
     position: relative;
     padding: 20px;
 }
-
 .btn-add{
     background-color: #00FF00;
     padding: 10px 20px;
@@ -36,7 +32,6 @@ th,td{
     font-weight: bold;
     cursor: pointer;
 }
-
 .btn-save{
     background-color: #FF4C4C;
     color: white;
@@ -48,7 +43,6 @@ th,td{
     right: 10px;
     cursor: pointer;
 }
-
 .btn-cancel{
     background-color: red;
     color: white;
@@ -58,7 +52,6 @@ th,td{
     cursor: pointer;
     margin-left: 10px;
 }
-
 .modal{
     display: none;
     position: fixed;
@@ -70,13 +63,11 @@ th,td{
     justify-content: center;
     align-items: center;
 }
-
 .modal-content{
     background-color: #eee;
     width: 700px;
     padding: 30px;
 }
-
 .question-input{
     width: 100%;
     height: 40px;
@@ -85,19 +76,16 @@ th,td{
     padding: 10px;
     box-sizing: border-box;
 }
-
 .question-box{
     background-color: white;
     padding: 15px;
     margin-top: 20px;
     border-radius: 5px;
 }
-
 .radio-cell{
     width: 140px;
     white-space: nowrap;
 }
-
 .no-border th{
     border: none;
 }

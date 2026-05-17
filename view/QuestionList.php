@@ -1,10 +1,17 @@
 <?php
 include "../Model/DatabaseConnection.php";
 include "../Model/QuizCreateConnection.php";
+session_start();
 $quizId = $_GET["quiz_id"] ?? "";
 $db = new DatabaseConnection();
 $quizDB = new QuizCreateConnection();
 $connection = $db->openConnection();
+$instructorId = $_SESSION["user_id"] ?? 1;
+$quiz = $quizDB->GetQuizById($connection, $quizId, $instructorId);
+if($quiz->num_rows == 0){
+    header("Location: ../View/InstructorDashboard.php");
+    exit();
+}
 $questions = $quizDB->GetQuestionsByQuizId($connection, $quizId);
 ?>
 <html>
@@ -48,30 +55,30 @@ $questions = $quizDB->GetQuestionsByQuizId($connection, $quizId);
                 }
             }
             echo "
-        <tr id='question_row_$questionId'>
-            <td id='question_text_$questionId'>
-                {$question["question_text"]}
-            </td>
-            <td id='option1_$questionId'>
-                {$optionArray[0]["option_text"]}
-            </td>
-            <td id='option2_$questionId'>
-                {$optionArray[1]["option_text"]}
-            </td>
-            <td id='option3_$questionId'>
-                {$optionArray[2]["option_text"]}
-            </td>
-            <td id='option4_$questionId'>
-                {$optionArray[3]["option_text"]}
-            </td>
-            <td id='correct_option_$questionId'>
-                $correctAnswer
-            </td>
-            <td id='action_$questionId'>
-                <button onclick='editQuestion($questionId)'>Edit</button>
-                <button onclick='deleteQuestion($questionId)'>Delete</button>
-            </td>
-        </tr>";
+            <tr id='question_row_$questionId'>
+                <td id='question_text_$questionId'>
+                    {$question["question_text"]}
+                </td>
+                <td id='option1_$questionId'>
+                    {$optionArray[0]["option_text"]}
+                </td>
+                <td id='option2_$questionId'>
+                    {$optionArray[1]["option_text"]}
+                </td>
+                <td id='option3_$questionId'>
+                    {$optionArray[2]["option_text"]}
+                </td>
+                <td id='option4_$questionId'>
+                    {$optionArray[3]["option_text"]}
+                </td>
+                <td id='correct_option_$questionId'>
+                    $correctAnswer
+                </td>
+                <td id='action_$questionId'>
+                    <button onclick='editQuestion($questionId)'>Edit</button>
+                    <button onclick='deleteQuestion($questionId)'>Delete</button>
+                </td>
+            </tr>";
         }
         ?>
     </table>

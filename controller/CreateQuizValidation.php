@@ -23,7 +23,7 @@ $hasStatusError = true;
 if (!$quizTitle) {
     $_SESSION["titleErr"] = "Quiz title is required";
     $hasTitleError = true;
-} 
+}
 else {
     unset($_SESSION["titleErr"]);
     $hasTitleError = false;
@@ -31,7 +31,7 @@ else {
 if (!$description) {
     $_SESSION["descriptionErr"] = "Description is required";
     $hasDescriptionError = true;
-} 
+}
 else {
     unset($_SESSION["descriptionErr"]);
     $hasDescriptionError = false;
@@ -39,15 +39,15 @@ else {
 if (!$quizTime) {
     $_SESSION["timeErr"] = "Time limit is required";
     $hasTimeError = true;
-} 
+}
 elseif (!filter_var($quizTime, FILTER_VALIDATE_INT)) {
     $_SESSION["timeErr"] = "Time limit must be integer";
     $hasTimeError = true;
-} 
+}
 elseif ($quizTime <= 0) {
     $_SESSION["timeErr"] = "Time limit must be positive";
     $hasTimeError = true;
-} 
+}
 else {
     unset($_SESSION["timeErr"]);
     $hasTimeError = false;
@@ -55,11 +55,11 @@ else {
 if (!$status) {
     $_SESSION["statusErr"] = "Status is required";
     $hasStatusError = true;
-} 
-elseif ($status != "Draft" && $status != "Published") {
+}
+elseif ($status != "draft" && $status != "published") {
     $_SESSION["statusErr"] = "Invalid status selected";
     $hasStatusError = true;
-} 
+}
 else {
     unset($_SESSION["statusErr"]);
     $hasStatusError = false;
@@ -67,7 +67,7 @@ else {
 if (
     !isset($_SESSION["questions"]) ||
     count($_SESSION["questions"]) == 0
-) 
+)
 {
     $_SESSION["questionListErr"] = "At least one question is required";
 }
@@ -81,7 +81,7 @@ if (
     $hasStatusError ||
     !isset($_SESSION["questions"]) ||
     count($_SESSION["questions"]) == 0
-) 
+)
 {
     header("Location: ../View/CreateQuiz.php");
     exit();
