@@ -71,5 +71,25 @@ class QuizCreateConnection{
         $statement->execute();
         return $statement->get_result();
     }
+    function DeleteQuiz($connection, $quizId){
+        $questions = $this->GetQuestionsByQuizId($connection, $quizId);
+        while($row = $questions->fetch_assoc()){
+            $questionId = $row["id"];
+            $sql1 = "DELETE FROM options WHERE question_id = ?";
+            $statement1 = $connection->prepare($sql1);
+            $statement1->bind_param("i", $questionId);
+            $statement1->execute();
+        }
+        $sql2 = "DELETE FROM questions WHERE quiz_id = ?";
+        $statement2 = $connection->prepare($sql2);
+        $statement2->bind_param("i", $quizId);
+        $statement2->execute();
+        
+        $sql3 = "DELETE FROM quizzes WHERE id = ?";
+        $statement3 = $connection->prepare($sql3);
+        $statement3->bind_param("i", $quizId);
+        return $statement3->execute();
+    }
 }
+
 ?>

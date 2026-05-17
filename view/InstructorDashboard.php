@@ -86,6 +86,13 @@ unset($_SESSION["successMsg"]);
                     <a href='EditQuiz.php?quiz_id=$quizId'>
                         Edit Quiz
                     </a>
+                    <br><br>
+                    <button
+                        type='button'
+                        onclick='deleteQuiz($quizId)'
+                    >
+                        Delete Quiz
+                    </button>
                 </td>
             </tr>
             ";
