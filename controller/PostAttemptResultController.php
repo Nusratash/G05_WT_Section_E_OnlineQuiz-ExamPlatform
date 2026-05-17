@@ -3,8 +3,6 @@ session_start();
 require_once("../model/DatabaseConnection.php");
 require_once("../model/DBPostAttemptResult.php");
 
-$_SESSION["quiz_id"] = "4"; // This is demo, will be stored by taking quiz which is created by Risan
-$_SESSION["attempt_id"] = "2"; // This is demo, will be stored by taking quiz which is created by Risan
 $quiz_id = $_SESSION["quiz_id"] ?? "";
 $attempt_id = $_SESSION["attempt_id"] ?? "";
 

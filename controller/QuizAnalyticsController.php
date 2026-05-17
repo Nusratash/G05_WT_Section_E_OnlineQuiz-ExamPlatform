@@ -9,7 +9,6 @@ $db=new DatabaseConnection();
 
 $connection=$db->openConnection();
 
-$_SESSION["instructor_id"] = 8; //This is demo
 $instructor_id = $_SESSION["instructor_id"];
 
 $obj = new QuizAnalyticsModel();

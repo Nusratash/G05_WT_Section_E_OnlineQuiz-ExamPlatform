@@ -8,7 +8,6 @@ require_once("../model/DBStudentAttemptHistory.php");
 $db = new DatabaseConnection();
 $connection = $db->openConnection();
 
-$_SESSION["student_id"]=6;//this is demo
 $student_id = $_SESSION["student_id"];
 
 
