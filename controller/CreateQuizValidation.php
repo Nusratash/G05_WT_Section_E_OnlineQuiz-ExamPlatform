@@ -151,6 +151,6 @@ unset($_SESSION["option3"]);
 unset($_SESSION["option4"]);
 unset($_SESSION["correct_option"]);
 $_SESSION["successMsg"] = "Quiz Created Successfully";
-header("Location: ../View/InstructorDashboard.php");
+header("Location: ../View/QuizesList.php");
 exit();
 ?>

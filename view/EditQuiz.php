@@ -9,7 +9,7 @@ $connection = $db->openConnection();
 $instructorId = $_SESSION["user_id"] ?? 1;
 $quiz = $quizDB->GetQuizById($connection, $quizId, $instructorId);
 if($quiz->num_rows == 0){
-    header("Location: ../View/InstructorDashboard.php");
+    header("Location: ../View/QuizesList.php");
     exit();
 }
 $row = $quiz->fetch_assoc();

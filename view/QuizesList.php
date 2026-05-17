@@ -13,7 +13,7 @@ unset($_SESSION["successMsg"]);
 <html>
 <head>
     <title>
-        INSTRUCTOR DASHBOARD
+        Quizes List
     </title>
     <script src="../Controller/JS/questionAjax.js"></script>
     <style>
@@ -39,7 +39,7 @@ unset($_SESSION["successMsg"]);
     <?php include "nav.php"; ?>
 
     <h2>
-        Instructor Dashboard
+       Quizes List
     </h2>
     <p style="color:green;">
         <?php echo $successMsg; ?>

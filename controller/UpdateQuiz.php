@@ -17,7 +17,7 @@ $quiz = $quizDB->GetQuizById(
     $instructorId
 );
 if($quiz->num_rows == 0){
-    header("Location: ../View/InstructorDashboard.php");
+    header("Location: ../View/QuizesList.php");
     exit();
 }
 $questions = $quizDB->GetQuestionsByQuizId($connection, $quizId);
@@ -31,5 +31,5 @@ $quizDB->UpdateQuiz(
     $status,
     $totalMark
 );
-header("Location: ../View/InstructorDashboard.php");
+header("Location: ../View/QuizesList.php");
 ?>
