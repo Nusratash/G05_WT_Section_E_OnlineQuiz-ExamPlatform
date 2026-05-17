@@ -1,161 +1,156 @@
 <?php
-class QuizCreateConnection{
-    function CreateQuiz(
-        $connection,
-        $title,
-        $description,
-        $timeLimit,
-        $status,
-        $instructorId,
-        $totalMarks
-    ){
-        $sql = "INSERT INTO quizzes(
-                    title,
-                    description,
-                    total_marks,
-                    time_limit_minutes,
-                    status,
-                    instructor_id
-                )
-                VALUES(?,?,?,?,?,?)";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "ssissi",
-            $title,
-            $description,
-            $totalMarks,
-            $timeLimit,
-            $status,
-            $instructorId
-        );
-        $result = $statement->execute();
-        if($result){
-            return $connection->insert_id;
-        }
-        return false;
-    }
-    function CreateQuestion(
-        $connection,
-        $quizId,
-        $questionText,
-        $marks,
-        $orderIndex
-    ){
-        $sql = "INSERT INTO questions(
-                    question_text,
-                    marks,
-                    order_index,
-                    quiz_id
-                )
-                VALUES(?,?,?,?)";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "sdii",
-            $questionText,
-            $marks,
-            $orderIndex,
-            $quizId
-        );
-        $statement->execute();
-        return $connection->insert_id;
-    }
-    function CreateOption(
-        $connection,
-        $questionId,
-        $optionText,
-        $isCorrect
-    ){
-        $sql = "INSERT INTO options(
-                    option_text,
-                    is_correct,
-                    question_id
-                )
-                VALUES(?,?,?)";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "sii",
-            $optionText,
-            $isCorrect,
-            $questionId
-        );
-        return $statement->execute();
-    }
-    function GetInstructorQuizzes(
-        $connection,
-        $instructorId
-    ){
-        $sql = "SELECT *
-                FROM quizzes
-                WHERE instructor_id = ?
-                ORDER BY id DESC";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "i",
-            $instructorId
-        );
-        $statement->execute();
-        return $statement->get_result();
-    }
-    function GetQuizById(
-        $connection,
-        $quizId,
-        $instructorId = null
-    ){
-        if($instructorId != null){
-            $sql = "SELECT *
-                    FROM quizzes
-                    WHERE id = ?
-                    AND instructor_id = ?";
-            $statement = $connection->prepare($sql);
-            $statement->bind_param(
-                "ii",
-                $quizId,
-                $instructorId
-            );
-        }
-        else{
-            $sql = "SELECT *
-                    FROM quizzes
-                    WHERE id = ?";
-            $statement = $connection->prepare($sql);
-            $statement->bind_param(
-                "i",
-                $quizId
-            );
-        }
-        $statement->execute();
-        return $statement->get_result();
-    }
-    function GetQuestionsByQuizId(
-        $connection,
-        $quizId
-    ){
-        $sql = "SELECT *
-                FROM questions
-                WHERE quiz_id = ?
-                ORDER BY order_index ASC";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "i",
-            $quizId
-        );
-        $statement->execute();
-        return $statement->get_result();
-    }
-    function GetOptionsByQuestionId(
-        $connection,
-        $questionId
-    ){
-        $sql = "SELECT *
-                FROM options
-                WHERE question_id = ?";
-        $statement = $connection->prepare($sql);
-        $statement->bind_param(
-            "i",
-            $questionId
-        );
-        $statement->execute();
-        return $statement->get_result();
+include "../Model/DatabaseConnection.php";
+include "../Model/QuizCreateConnection.php";
+session_start();
+$quizTitle = $_POST["quiz_title"] ?? "";
+$description = $_POST["description"] ?? "";
+$quizTime = $_POST["quiz_time"] ?? "";
+$status = $_POST["status"] ?? "";
+$totalMark = 0;
+if (isset($_SESSION["questions"])) {
+    foreach ($_SESSION["questions"] as $question) {
+        $totalMark += 1;
     }
 }
+$_SESSION["quiz_title"] = $quizTitle;
+$_SESSION["description"] = $description;
+$_SESSION["quiz_time"] = $quizTime;
+$_SESSION["status"] = $status;
+$hasTitleError = true;
+$hasDescriptionError = true;
+$hasTimeError = true;
+$hasStatusError = true;
+if (!$quizTitle) {
+    $_SESSION["titleErr"] = "Quiz title is required";
+    $hasTitleError = true;
+} 
+else {
+    unset($_SESSION["titleErr"]);
+    $hasTitleError = false;
+}
+if (!$description) {
+    $_SESSION["descriptionErr"] = "Description is required";
+    $hasDescriptionError = true;
+} 
+else {
+    unset($_SESSION["descriptionErr"]);
+    $hasDescriptionError = false;
+}
+if (!$quizTime) {
+    $_SESSION["timeErr"] = "Time limit is required";
+    $hasTimeError = true;
+} 
+elseif (!filter_var($quizTime, FILTER_VALIDATE_INT)) {
+    $_SESSION["timeErr"] = "Time limit must be integer";
+    $hasTimeError = true;
+} 
+elseif ($quizTime <= 0) {
+    $_SESSION["timeErr"] = "Time limit must be positive";
+    $hasTimeError = true;
+} 
+else {
+    unset($_SESSION["timeErr"]);
+    $hasTimeError = false;
+}
+if (!$status) {
+    $_SESSION["statusErr"] = "Status is required";
+    $hasStatusError = true;
+} 
+elseif ($status != "Draft" && $status != "Published") {
+    $_SESSION["statusErr"] = "Invalid status selected";
+    $hasStatusError = true;
+} 
+else {
+    unset($_SESSION["statusErr"]);
+    $hasStatusError = false;
+}
+if (
+    !isset($_SESSION["questions"]) ||
+    count($_SESSION["questions"]) == 0
+) 
+{
+    $_SESSION["questionListErr"] = "At least one question is required";
+}
+else {
+    unset($_SESSION["questionListErr"]);
+}
+if (
+    $hasTitleError ||
+    $hasDescriptionError ||
+    $hasTimeError ||
+    $hasStatusError ||
+    !isset($_SESSION["questions"]) ||
+    count($_SESSION["questions"]) == 0
+) 
+{
+    header("Location: ../View/CreateQuiz.php");
+    exit();
+}
+$db = new DatabaseConnection();
+$quizDB = new QuizCreateConnection();
+$connection = $db->openConnection();
+$instructorId = $_SESSION["user_id"] ?? 1;
+$quizId = $quizDB->CreateQuiz(
+    $connection,
+    $quizTitle,
+    $description,
+    $quizTime,
+    $status,
+    $instructorId,
+    $totalMark
+);
+if(!$quizId){
+    $_SESSION["questionListErr"] = "Quiz creation failed";
+    header("Location: ../View/CreateQuiz.php");
+    exit();
+}
+$orderIndex = 1;
+foreach($_SESSION["questions"] as $question){
+    $questionId = $quizDB->CreateQuestion(
+        $connection,
+        $quizId,
+        $question["question"],
+        1,
+        $orderIndex
+    );
+    $quizDB->CreateOption(
+        $connection,
+        $questionId,
+        $question["option1"],
+        $question["correct_answer"] == $question["option1"] ? 1 : 0
+    );
+    $quizDB->CreateOption(
+        $connection,
+        $questionId,
+        $question["option2"],
+        $question["correct_answer"] == $question["option2"] ? 1 : 0
+    );
+    $quizDB->CreateOption(
+        $connection,
+        $questionId,
+        $question["option3"],
+        $question["correct_answer"] == $question["option3"] ? 1 : 0
+    );
+    $quizDB->CreateOption(
+        $connection,
+        $questionId,
+        $question["option4"],
+        $question["correct_answer"] == $question["option4"] ? 1 : 0
+    );
+    $orderIndex++;
+}
+unset($_SESSION["questions"]);
+unset($_SESSION["quiz_title"]);
+unset($_SESSION["description"]);
+unset($_SESSION["quiz_time"]);
+unset($_SESSION["status"]);
+unset($_SESSION["question"]);
+unset($_SESSION["option1"]);
+unset($_SESSION["option2"]);
+unset($_SESSION["option3"]);
+unset($_SESSION["option4"]);
+unset($_SESSION["correct_option"]);
+$_SESSION["successMsg"] = "Quiz Created Successfully";
+header("Location: ../View/InstructorDashboard.php");
+exit();
 ?>
