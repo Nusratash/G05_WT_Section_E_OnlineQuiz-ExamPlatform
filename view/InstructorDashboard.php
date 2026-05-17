@@ -6,13 +6,17 @@ $db = new DatabaseConnection();
 $quizDB = new QuizCreateConnection();
 $connection = $db->openConnection();
 $instructorId = $_SESSION["user_id"] ?? 1;
-$quizzes = $quizDB->GetInstructorQuizzes($connection, $instructorId);
+$quizzes = $quizDB->GetInstructorQuizzes($connection,$instructorId);
 $successMsg = $_SESSION["successMsg"] ?? "";
 unset($_SESSION["successMsg"]);
+
 ?>
+
 <html>
 <head>
-    <title>INSTRUCTOR DASHBOARD</title>
+    <title>
+        INSTRUCTOR DASHBOARD
+    </title>
     <script src="../Controller/JS/questionAjax.js"></script>
     <style>
         table{
@@ -24,16 +28,23 @@ unset($_SESSION["successMsg"]);
             padding:8px;
             text-align:left;
         }
+
         .btn-active{
             background-color:#4CAF50;
             color:white;
             padding:5px 10px;
             border:none;
+            cursor:pointer;
         }
+
     </style>
 </head>
+
 <body>
-<h2>Instructor Dashboard</h2>
+<h2>
+    Instructor Dashboard
+</h2>
+
 <p style="color:green;">
     <?php echo $successMsg; ?>
 </p>
@@ -49,12 +60,27 @@ unset($_SESSION["successMsg"]);
 <table>
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Total Marks</th>
-            <th>Time Limit</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Total Marks
+            </th>
+            <th>
+                Time Limit
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Publish
+            </th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -76,7 +102,27 @@ unset($_SESSION["successMsg"]);
                     {$row["time_limit_minutes"]}
                 </td>
                 <td id='status_$quizId'>
-                    {$row["status"]}
+            ";
+
+            if($row["status"] == "published"){
+                echo "Published";
+            }
+            else{
+                echo "Draft";
+            }
+            echo "
+                </td>
+                <td>
+                    <button type='button'id='toggle_btn_$quizId' onclick='toggleQuizStatus($quizId)'>
+            ";
+            if($row["status"] == "published"){
+                echo "Unpublish";
+            }
+            else{
+                echo "Publish";
+            }
+            echo "
+                    </button>
                 </td>
                 <td>
                     <a href='QuestionList.php?quiz_id=$quizId'>
@@ -87,10 +133,7 @@ unset($_SESSION["successMsg"]);
                         Edit Quiz
                     </a>
                     <br><br>
-                    <button
-                        type='button'
-                        onclick='deleteQuiz($quizId)'
-                    >
+                    <button type='button' onclick='deleteQuiz($quizId)'>
                         Delete Quiz
                     </button>
                 </td>
