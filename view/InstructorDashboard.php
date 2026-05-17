@@ -1,46 +1,97 @@
 <?php
-
+include "../Model/DatabaseConnection.php";
+include "../Model/QuizCreateConnection.php";
+session_start();
+$db = new DatabaseConnection();
+$quizDB = new QuizCreateConnection();
+$connection = $db->openConnection();
+$instructorId = $_SESSION["user_id"] ?? 1;
+$quizzes = $quizDB->GetInstructorQuizzes($connection, $instructorId);
+$successMsg = $_SESSION["successMsg"] ?? "";
+unset($_SESSION["successMsg"]);
 ?>
 <html>
-
 <head>
     <title>INSTRUCTOR DASHBOARD</title>
+    <script src="../Controller/JS/questionAjax.js"></script>
     <style>
-        table { width: 100%; border-collapse: collapse; }
-        th,td { border: 1px solid black; padding: 8px; text-align: left; }
-        .btn-active { background-color: #4CAF50; color: white; }
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        th,td{
+            border:1px solid black;
+            padding:8px;
+            text-align:left;
+        }
+        .btn-active{
+            background-color:#4CAF50;
+            color:white;
+            padding:5px 10px;
+            border:none;
+        }
     </style>
 </head>
-
 <body>
-    <form action="CreateQuiz.php" method="POST">
-        <table>
-            <tr>
-                <td>
-                    <input type="submit" value="Create">
-                </td>
-                <td>
-                    <input type="text" name="search_text" placeholder="Enter the search ">
-                </td>
-                <td>
-                    <input type="submit" value="Search">
-                </td>
-            </tr>
-        </table>
-    </form>
-
+<h2>Instructor Dashboard</h2>
+<p style="color:green;">
+    <?php echo $successMsg; ?>
+</p>
+<form action="CreateQuiz.php" method="POST">
     <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Created At</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
+        <tr>
+            <td>
+                <input type="submit" value="Create Quiz">
+            </td>
+        </tr>
     </table>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Total Marks</th>
+            <th>Time Limit</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        while($row = $quizzes->fetch_assoc()){
+            $quizId = $row["id"];
+            echo "
+            <tr id='quiz_row_$quizId'>
+                <td>
+                    {$row["title"]}
+                </td>
+                <td>
+                    {$row["description"]}
+                </td>
+                <td>
+                    {$row["total_marks"]}
+                </td>
+                <td>
+                    {$row["time_limit_minutes"]}
+                </td>
+                <td id='status_$quizId'>
+                    {$row["status"]}
+                </td>
+                <td>
+                    <a href='QuestionList.php?quiz_id=$quizId'>
+                        Manage Questions
+                    </a>
+                    <br><br>
+                    <a href='EditQuiz.php?quiz_id=$quizId'>
+                        Edit Quiz
+                    </a>
+                </td>
+            </tr>
+            ";
+        }
+        ?>
+    </tbody>
+</table>
 </body>
 </html>

@@ -6,14 +6,12 @@ $option2Error = $_SESSION["option2Err"] ?? "";
 $option3Error = $_SESSION["option3Err"] ?? "";
 $option4Error = $_SESSION["option4Err"] ?? "";
 $correctOptionError =$_SESSION["correctOptionErr"] ?? "";
-
 $questionValue = $_SESSION["question"] ?? "";
 $option1Value = $_SESSION["option1"] ?? "";
 $option2Value = $_SESSION["option2"] ?? "";
 $option3Value = $_SESSION["option3"] ?? "";
 $option4Value = $_SESSION["option4"] ?? "";
 $correctOptionValue =$_SESSION["correct_option"] ?? "";
-
 unset($_SESSION["questionErr"]);
 unset($_SESSION["option1Err"]);
 unset($_SESSION["option2Err"]);
@@ -21,12 +19,10 @@ unset($_SESSION["option3Err"]);
 unset($_SESSION["option4Err"]);
 unset($_SESSION["correctOptionErr"]);
 ?>
-
 <html>
 <head>
     <link rel="stylesheet" href="styleqsbuild.css">
 </head>
-
 <body>
     <div id="modalOverlay" class="modal">
         <form method="POST" action="../Controller/AddQuestionValidation.php" class="modal-form">
@@ -36,7 +32,6 @@ unset($_SESSION["correctOptionErr"]);
                         <h2>Question</h2>
                     </th>
                 </tr>
-
                 <tr>
                     <td colspan="2">
                         <input type="text" name="question" id="question" class="question-input" placeholder="Enter your question" value="<?php echo $questionValue; ?>" />
@@ -49,7 +44,6 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
                 <tr>
                     <th colspan="2">
                         <h2>Options</h2>
@@ -75,8 +69,6 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td class="radio-cell">
                         <input
@@ -98,7 +90,6 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
                 <tr>
                     <td class="radio-cell">
                         <input type="radio" id="correct3" name="correct_option" value="option3"
@@ -119,7 +110,6 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
                 <tr>
                     <td class="radio-cell">
                         <input type="radio" id="correct4" name="correct_option" value="option4"
@@ -140,7 +130,6 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
                 <tr>
                     <td colspan="2">
                         <p style="color:red;">
@@ -148,13 +137,11 @@ unset($_SESSION["correctOptionErr"]);
                         </p>
                     </td>
                 </tr>
-
                 <tr>
                     <td colspan="2">
                         <button type="submit" class="btn-add">
                             Add
                         </button>
-
                         <button type="button" class="btn-cancel" onclick="closeModal()">
                             Cancel
                         </button>
