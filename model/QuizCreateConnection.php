@@ -1,5 +1,4 @@
 <?php
-
 class QuizCreateConnection
 {
     function CreateQuiz($connection,$title,$description,$timeLimit,$status,$instructorId,$totalMarks) 
@@ -105,4 +104,30 @@ class QuizCreateConnection
         if (!$result) { die($statement->error); }
         return $result;
     }
+    function DeleteQuestion( $connection, $questionId)
+    {
+        $sql1 = "DELETE FROM options WHERE question_id = ?";
+        $statement1 = $connection->prepare($sql1);
+        $statement1->bind_param("i",$questionId);
+        $statement1->execute();
+        $sql2 = "DELETE FROM questions WHERE id = ?";
+        $statement2 = $connection->prepare($sql2);
+        $statement2->bind_param("i",$questionId);
+        return $statement2->execute();
+    }
+       function UpdateQuestion($connection,$questionId,$questionText)
+    {
+        $sql = "UPDATE questions SET question_text = ? WHERE id = ?";
+        $statement = $connection->prepare($sql);
+        $statement->bind_param("si",$questionText,$questionId);
+        return $statement->execute();
+    }
+    function UpdateOption($connection, $optionId,$optionText,$isCorrect)
+    {
+        $sql = "UPDATE options SET option_text = ?,is_correct = ? WHERE id = ?";
+        $statement = $connection->prepare($sql);
+        $statement->bind_param( "sii",$optionText,$isCorrect,$optionId);
+        return $statement->execute();
+    }
+
 }
