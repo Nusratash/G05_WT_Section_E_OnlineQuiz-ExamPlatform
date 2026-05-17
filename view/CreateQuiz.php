@@ -15,8 +15,6 @@ if (isset($_SESSION["questions"])) {
         $totalMark += 1;
     }
 }
-// Flag: if there are no leftover session fields, this is a fresh load → clear sessionStorage
-$freshLoad = ($quizTitle == "" && $description == "" && $quizTime == "" && $status == "");
 ?>
 <html>
 <head>
@@ -144,8 +142,6 @@ $freshLoad = ($quizTitle == "" && $description == "" && $quizTime == "" && $stat
     </form>
     <?php include "AddQuestionModal.php"; ?>
     <script>
-    var freshLoad = <?php echo $freshLoad ? 'true' : 'false'; ?>;
-
     function saveQuizFieldsAndOpenModal() {
         sessionStorage.setItem(
             "quiz_title",
@@ -167,17 +163,6 @@ $freshLoad = ($quizTitle == "" && $description == "" && $quizTime == "" && $stat
     }
 
     window.onload = function () {
-        // If this is a fresh load (no leftover PHP session data),
-        // it means the previous quiz was saved successfully — clear sessionStorage.
-        if (freshLoad) {
-            sessionStorage.removeItem("quiz_title");
-            sessionStorage.removeItem("description");
-            sessionStorage.removeItem("quiz_time");
-            sessionStorage.removeItem("status");
-            return;
-        }
-
-        // Restore from sessionStorage only if PHP didn't already provide a value
         if (document.getElementById("quiz_title").value == "") {
             document.getElementById("quiz_title").value =
                 sessionStorage.getItem("quiz_title") ?? "";

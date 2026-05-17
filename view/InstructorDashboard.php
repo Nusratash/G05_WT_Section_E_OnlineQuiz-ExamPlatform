@@ -136,5 +136,15 @@ unset($_SESSION["successMsg"]);
             ?>
         </tbody>
     </table>
+
+    <?php if ($successMsg): ?>
+    <script>
+        // Quiz was just saved successfully — clear the Create Quiz sessionStorage fields
+        sessionStorage.removeItem("quiz_title");
+        sessionStorage.removeItem("description");
+        sessionStorage.removeItem("quiz_time");
+        sessionStorage.removeItem("status");
+    </script>
+    <?php endif; ?>
 </body>
 </html>
