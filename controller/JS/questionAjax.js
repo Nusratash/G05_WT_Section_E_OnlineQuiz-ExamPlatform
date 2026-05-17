@@ -1,80 +1,90 @@
 function openModal() {
     document.getElementById("modalOverlay").style.display = "flex";
 }
+
 function closeModal() {
     document.getElementById("modalOverlay").style.display = "none";
 }
+
 function deleteQuiz(quizId) {
     let confirmDelete = confirm("Are you sure to delete this quiz?");
     if (confirmDelete == false) {
         return;
     }
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "../Controller/DeleteQuiz.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                if (this.responseText.trim() == "Deleted") {
-                    document.getElementById("quiz_row_" + quizId).remove();
-                } else {
-                    alert("Delete Failed");
-                }
-            }
+    
+    fetch(`../../api/quizzes/${quizId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
         }
-    };
-    xhttp.send("quiz_id=" + quizId);
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("quiz_row_" + quizId).remove();
+        } else {
+            alert("Delete Failed: " + (data.error || "Unknown error"));
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Delete Failed");
+    });
 }
+
 function toggleQuizStatus(quizId) {
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "../Controller/ToggleQuizStatus.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                try {
-                    let response = JSON.parse(this.responseText);
-                    if (response.success == true) {
-                        if (response.status == "published") {
-                            document.getElementById("status_" + quizId).innerHTML = "Published";
-                            document.getElementById("toggle_btn_" + quizId).innerHTML = "Unpublish";
-                        } else {
-                            document.getElementById("status_" + quizId).innerHTML = "Draft";
-                            document.getElementById("toggle_btn_" + quizId).innerHTML = "Publish";
-                        }
-                    } else {
-                        alert("Cannot publish quiz without questions");
-                    }
-                } catch (error) {
-                    console.log(error);
-                    alert("Status Toggle Failed");
-                }
-            }
+    fetch(`../../api/quizzes/${quizId}/toggle`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         }
-    };
-    xhttp.send("quiz_id=" + quizId);
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.status == "published") {
+                document.getElementById("status_" + quizId).innerHTML = "Published";
+                document.getElementById("toggle_btn_" + quizId).innerHTML = "Unpublish";
+            } else {
+                document.getElementById("status_" + quizId).innerHTML = "Draft";
+                document.getElementById("toggle_btn_" + quizId).innerHTML = "Publish";
+            }
+        } else {
+            alert("Cannot publish quiz without questions");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Status Toggle Failed");
+    });
 }
+
 function deleteQuestion(questionId) {
     let confirmDelete = confirm("Are you sure to delete this question?");
     if (confirmDelete == false) {
         return;
     }
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "../Controller/DeleteQuestion.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                if (this.responseText.trim() == "Deleted") {
-                    document.getElementById("question_row_" + questionId).remove();
-                } else {
-                    alert("Delete Failed");
-                }
-            }
+    
+    fetch(`../../api/questions/${questionId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
         }
-    };
-    xhttp.send("question_id=" + questionId);
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("question_row_" + questionId).remove();
+        } else {
+            alert("Delete Failed: " + (data.error || "Unknown error"));
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Delete Failed");
+    });
 }
+
 function editQuestion(questionId) {
     let question = document.getElementById("question_text_" + questionId).innerHTML.trim();
 
@@ -96,22 +106,22 @@ function editQuestion(questionId) {
     let correctAnswer = document.getElementById("correct_option_" + questionId).innerHTML.trim();
 
     document.getElementById("question_text_" + questionId).innerHTML =
-        "<input type='text' id='edit_question_" + questionId + "' value=\"" + question + "\">";
+        "<input type='text' id='edit_question_" + questionId + "' value=\"" + question.replace(/"/g, '&quot;') + "\">";
 
     document.getElementById("option1_" + questionId).innerHTML =
-        "<input type='text' id='edit_option1_" + questionId + "' value=\"" + option1 + "\">" +
+        "<input type='text' id='edit_option1_" + questionId + "' value=\"" + option1.replace(/"/g, '&quot;') + "\">" +
         "<input type='hidden' id='edit_optionid1_" + questionId + "' value='" + optionId1 + "'>";
 
     document.getElementById("option2_" + questionId).innerHTML =
-        "<input type='text' id='edit_option2_" + questionId + "' value=\"" + option2 + "\">" +
+        "<input type='text' id='edit_option2_" + questionId + "' value=\"" + option2.replace(/"/g, '&quot;') + "\">" +
         "<input type='hidden' id='edit_optionid2_" + questionId + "' value='" + optionId2 + "'>";
 
     document.getElementById("option3_" + questionId).innerHTML =
-        "<input type='text' id='edit_option3_" + questionId + "' value=\"" + option3 + "\">" +
+        "<input type='text' id='edit_option3_" + questionId + "' value=\"" + option3.replace(/"/g, '&quot;') + "\">" +
         "<input type='hidden' id='edit_optionid3_" + questionId + "' value='" + optionId3 + "'>";
 
     document.getElementById("option4_" + questionId).innerHTML =
-        "<input type='text' id='edit_option4_" + questionId + "' value=\"" + option4 + "\">" +
+        "<input type='text' id='edit_option4_" + questionId + "' value=\"" + option4.replace(/"/g, '&quot;') + "\">" +
         "<input type='hidden' id='edit_optionid4_" + questionId + "' value='" + optionId4 + "'>";
 
     let selected1 = "", selected2 = "", selected3 = "", selected4 = "";
@@ -131,6 +141,7 @@ function editQuestion(questionId) {
     document.getElementById("action_" + questionId).innerHTML =
         "<button onclick='saveQuestion(" + questionId + ")'>Save</button>";
 }
+
 function saveQuestion(questionId) {
     let question = document.getElementById("edit_question_" + questionId).value;
     let option1 = document.getElementById("edit_option1_" + questionId).value;
@@ -143,49 +154,46 @@ function saveQuestion(questionId) {
     let optionId4 = document.getElementById("edit_optionid4_" + questionId).value;
     let correctOption = document.getElementById("edit_correct_" + questionId).value;
 
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "../Controller/UpdateQuestion.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                try {
-                    let response = JSON.parse(this.responseText);
-                    if (response.success) {
-                        document.getElementById("question_text_" + questionId).innerHTML = response.question;
-                        document.getElementById("option1_" + questionId).innerHTML = response.option1;
-                        document.getElementById("option1_" + questionId).setAttribute("data-option-id", response.optionId1);
-                        document.getElementById("option2_" + questionId).innerHTML = response.option2;
-                        document.getElementById("option2_" + questionId).setAttribute("data-option-id", response.optionId2);
-                        document.getElementById("option3_" + questionId).innerHTML = response.option3;
-                        document.getElementById("option3_" + questionId).setAttribute("data-option-id", response.optionId3);
-                        document.getElementById("option4_" + questionId).innerHTML = response.option4;
-                        document.getElementById("option4_" + questionId).setAttribute("data-option-id", response.optionId4);
-                        document.getElementById("correct_option_" + questionId).innerHTML = response.correct_answer;
-                        document.getElementById("action_" + questionId).innerHTML =
-                            "<button onclick='editQuestion(" + questionId + ")'>Edit</button>" +
-                            "<button onclick='deleteQuestion(" + questionId + ")'>Delete</button>";
-                    } else {
-                        alert("Save Failed: " + (response.error || "Unknown error"));
-                    }
-                } catch (e) {
-                    console.log(e);
-                    alert("Save Failed");
-                }
-            }
-        }
+    let data = {
+        question_text: question,
+        options: [
+            { id: optionId1, text: option1 },
+            { id: optionId2, text: option2 },
+            { id: optionId3, text: option3 },
+            { id: optionId4, text: option4 }
+        ],
+        correct_option_index: parseInt(correctOption)
     };
-    xhttp.send(
-        "question_id=" + questionId +
-        "&question=" + encodeURIComponent(question) +
-        "&option1=" + encodeURIComponent(option1) +
-        "&option2=" + encodeURIComponent(option2) +
-        "&option3=" + encodeURIComponent(option3) +
-        "&option4=" + encodeURIComponent(option4) +
-        "&option_id1=" + encodeURIComponent(optionId1) +
-        "&option_id2=" + encodeURIComponent(optionId2) +
-        "&option_id3=" + encodeURIComponent(optionId3) +
-        "&option_id4=" + encodeURIComponent(optionId4) +
-        "&correct_option=" + correctOption
-    );
+
+    fetch(`../../api/questions/${questionId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            document.getElementById("question_text_" + questionId).innerHTML = response.question;
+            document.getElementById("option1_" + questionId).innerHTML = response.option1;
+            document.getElementById("option1_" + questionId).setAttribute("data-option-id", response.optionId1);
+            document.getElementById("option2_" + questionId).innerHTML = response.option2;
+            document.getElementById("option2_" + questionId).setAttribute("data-option-id", response.optionId2);
+            document.getElementById("option3_" + questionId).innerHTML = response.option3;
+            document.getElementById("option3_" + questionId).setAttribute("data-option-id", response.optionId3);
+            document.getElementById("option4_" + questionId).innerHTML = response.option4;
+            document.getElementById("option4_" + questionId).setAttribute("data-option-id", response.optionId4);
+            document.getElementById("correct_option_" + questionId).innerHTML = response.correct_answer;
+            document.getElementById("action_" + questionId).innerHTML =
+                "<button onclick='editQuestion(" + questionId + ")'>Edit</button>" +
+                "<button onclick='deleteQuestion(" + questionId + ")'>Delete</button>";
+        } else {
+            alert("Save Failed: " + (response.error || "Unknown error"));
+        }
+    })
+    .catch(e => {
+        console.error(e);
+        alert("Save Failed");
+    });
 }
