@@ -37,7 +37,7 @@ $data=$_SESSION["quizList"] ?? [];
                 else
                 {
                 ?>
-                <form action="StartQuizController.php" method="POST">
+                <form action="../controller/StartQuizController.php" method="POST">
                 <input type="hidden" name="quiz_id" value="<?=$row["id"]?>">
 
                 <button type="submit">Start Quiz</button>

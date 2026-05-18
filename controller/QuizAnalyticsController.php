@@ -9,7 +9,7 @@ $db=new DatabaseConnection();
 
 $connection=$db->openConnection();
 
-$instructor_id = $_SESSION["instructor_id"];
+$instructor_id = $_SESSION["user_id"];
 
 $obj = new QuizAnalyticsModel();
 

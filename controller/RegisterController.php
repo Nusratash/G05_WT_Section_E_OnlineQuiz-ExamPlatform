@@ -1,6 +1,6 @@
 <?php
 
-include "../Model/UserModel.php";
+include "../model/UserModel.php";
 
 session_start();
 

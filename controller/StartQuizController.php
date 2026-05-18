@@ -6,7 +6,7 @@ $db=new DatabaseConnection();
 $connection=$db->openConnection();
 
 
-$student_id=$_SESSION["student_id"];
+$student_id=$_SESSION["user_id"];
 $quiz_id=$_POST["quiz_id"];
 
 
@@ -31,7 +31,7 @@ if($result->num_rows>0)
 
 $sql="
     INSERT INTO attempts(quiz_id,student_id,score,started_at)
-    VALUES(?,?,NULL,NOW())
+    VALUES(?,?,0,NOW())
 ";
 
 $stmt=$connection->prepare($sql);

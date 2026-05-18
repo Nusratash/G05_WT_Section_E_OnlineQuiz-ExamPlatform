@@ -59,9 +59,9 @@ $a = $userModel->getStudentDashboardStats($userId);
         </div>
 
         <div class="nav-links">
-            <a href="">Available Quizzes</a>
-            <a href="">My Results</a>
-            <a href="">Leaderboard</a>
+            <a href="../controller/QuizListController.php">Available Quizzes</a>
+            <a href="../controller/StudentAttemptHistoryController.php">My Results</a>
+            <a href="leaderboard.php">Leaderboard</a>
         </div>
 
 

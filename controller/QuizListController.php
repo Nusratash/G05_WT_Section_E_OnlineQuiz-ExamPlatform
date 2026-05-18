@@ -11,7 +11,7 @@ $db=new DatabaseConnection();
 $connection=$db->openConnection();
 
 
-$student_id=$_SESSION["student_id"];
+$student_id=$_SESSION["user_id"];
 
 $obj=new DBQuizList();
 

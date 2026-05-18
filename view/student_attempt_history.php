@@ -35,7 +35,7 @@ $data = $_SESSION["attemptHistory"] ?? [];
             }
             ?>
             <tr>
-                <tr><td colspan="5" style="text-align: center"><button><a href="#">Close</a></button></td></tr>
+                <tr><td colspan="5" style="text-align: center"><button><a href="studentDashboard.php">Close</a></button></td></tr>
             </tr>
         </table>
     </body>
