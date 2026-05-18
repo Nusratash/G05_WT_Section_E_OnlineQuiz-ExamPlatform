@@ -19,7 +19,7 @@ if (isset($_SESSION["questions"])) {
 <html>
 <head>
     <title>CREATE QUIZ</title>
-    <link rel="stylesheet" href="styleqsbuild.css">
+    <link rel="stylesheet" href="../view/css/styleqsbuild.css">
     <script src="../Controller/JS/questionAjax.js"></script>
 </head>
 <body>

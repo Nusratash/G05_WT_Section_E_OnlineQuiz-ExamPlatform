@@ -16,24 +16,7 @@ unset($_SESSION["successMsg"]);
         Quizes List
     </title>
     <script src="../Controller/JS/questionAjax.js"></script>
-    <style>
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-        th,td{
-            border:1px solid black;
-            padding:8px;
-            text-align:left;
-        }
-        .btn-active{
-            background-color:#4CAF50;
-            color:white;
-            padding:5px 10px;
-            border:none;
-            cursor:pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="../view/css/quizList.css"
 </head>
 <body>
     <?php include "nav.php"; ?>
