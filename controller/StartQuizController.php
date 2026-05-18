@@ -43,7 +43,7 @@ $_SESSION["quiz_id"]=$quiz_id;
 
 $_SESSION["attempt_id"]=$attempt_id;
 
-header("Location: ../view/quiz_page.php");
+header("Location: ../controller/QuizPageController.php");
 exit();
 
 ?>
